@@ -7,8 +7,8 @@
 
 //No direct access
 defined('_JEXEC) or die;');
-$document =& JFactory::getDocument();
-$document->addScript($modulePath.'js'.DS.'imageloader.js');
+$document = JFactory::getDocument();
+$document->addScript(MODULEURI.'assets/js/imageloader.js');
 $imageThumbSize = $params->get('image_thumb_size', '150') > 600 ? 600 : $params->get('image_thumb_size', '150');
 $thumbImage = $params->get('image_thumb_size', '150') > 150 ? $image['full'] : $image['thumb'];
 ?>
