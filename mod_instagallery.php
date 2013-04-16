@@ -8,7 +8,6 @@
  */
 
 defined('_JEXEC') or die('Restricted access'); // no direct access
-
 require_once (dirname(__FILE__).DS.'helper.php');
 $modulePath = JURI::root(true).DS.'modules'.DS.'mod_instagallery'.DS;
 $Instagram = modInstagramHelper::getInstagramObject($params);

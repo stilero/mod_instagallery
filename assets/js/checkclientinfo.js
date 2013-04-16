@@ -17,7 +17,7 @@ window.addEvent('domready', function(){
     var accessTokenInput = $('jform_params_access_token');
     var accessToken = accessTokenInput.value;
     //var catcherURI = $('jform_params_helpers_uri').value + 'catcher.php';
-    var catcherURI = $('jform_params_redirect_uri').value;
+    var catcherURI = redirectURI;
     var authButton = $('jform_params_authorize');
 
     var sendVars;
@@ -42,7 +42,7 @@ window.addEvent('domready', function(){
     };
     
     var handleResponse = function(response){
-        if(!$defined(response.access_token)){
+        if((response.access_token == undefined)){
             var errormsg = '(' + response.code + ')' +
                 response.error_type + '\n' +
                 response.error_message;
@@ -50,18 +50,19 @@ window.addEvent('domready', function(){
         }else{
             accessTokenInput.value = response.access_token;
             authCodeInput.value = '';        
-            alert(MOD_INSTAGRAM_JS_SUCCESS);
+            alert(MOD_INSTAGALLERY_JS_SUCCESS);
         }
     };
     
     var requestAccessToken = function(){
-        authCode = authCode;
+        //authCode = authCode;
         var reqUrl = $('jform_params_helpers_uri').value + 'authorizer.php';
         sendVars = 'client_id=' + clientID +
             '&client_secret=' + clientSecret +
             '&grant_type=authorization_code' +
             '&code=' + authCode +
-            '&redirect_uri=' + redirectURI;
+            '&redirect_uri=' + catcherURI;
+        alert(reqUrl + '?' + sendVars);
         var myRequest = new Request.JSON({
             url: reqUrl,
             method: 'post',
@@ -74,8 +75,11 @@ window.addEvent('domready', function(){
             onSuccess: function(responseText){
                 handleResponse(responseText);
             },
+            onError: function(responseText){
+                alert(MOD_INSTAGALLERY_JS_FAILURE + responseText.status);
+            },
             onFailure: function(responseText){
-                alert(MOD_INSTAGRAM_JS_FAILURE + responseText.status);
+                alert(MOD_INSTAGALLERY_JS_FAILURE + responseText.status);
             }
         });
         

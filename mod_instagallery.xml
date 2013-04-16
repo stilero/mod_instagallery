@@ -151,6 +151,11 @@
             </fieldset>
             <fieldset name="instagram_settings" label="MOD_INSTAGALLERY_SETTINGS" addfieldpath="/modules/mod_instagallery/assets/elements">
                 <field 
+                    name="redirect_uri" 
+                    type="redirecturi" 
+                    default="" 
+                />
+                <field 
                     name="instructions_code" 
                     type="instructions" 
                     label="instructions"
@@ -166,11 +171,6 @@
                     type="text" default="" 
                     label="MOD_INSTAGALLERY_CLIENT_SECRET" 
                     description="MOD_INSTAGALLERY_CLIENT_SECRET_DESC" 
-                />
-                <field 
-                    name="redirect_uri" 
-                    type="redirecturi" 
-                    default="" 
                 />
                 <field 
                     name="authorize" 

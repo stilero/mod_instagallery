@@ -50,15 +50,13 @@ class InstaOauthAccessToken extends InstaOAuth{
     }
     /**
      * Requests an access token from Instagram
-     * @return string   A valid access token
+     * @return string   JSON Response
      */
     public function requestAccessToken(){
         $url = parent::$_instagramOAuthUrl . self::$_instaTokenUrlPath;
         $Communicator = new Communicator($url, $this->getPostVars());
         $Communicator->query();
-        $jsonResponse = $Communicator->getResponse();
-        $this->token = $this->getTokenFromJsonResponse($jsonResponse);
-        return $this->token;
+        return $jsonResponse = $Communicator->getResponse();
     }
     
 }
