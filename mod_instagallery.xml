@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install version="1.6" type="module" method="upgrade">
-	<name>InstaGallery</name>
+<extension version="2.5" type="module" method="upgrade" client="site">
+	<name>mod_instagallery</name>
 	<author>Daniel Eliasson (joomla@stilero.com)</author>
 	<creationDate>2012-nov-08</creationDate>
 	<copyright>Copyright (c) 2012-nov-08 Stilero Webdesign (www.stilero.com). All rights reserved.</copyright>
 	<authorEmail>joomla@stilero.com</authorEmail>
 	<authorUrl>www.stilero.com</authorUrl>
-	<version>1.5</version>
+	<version>1.6</version>
 	<license>GPLv2</license>
 	<description>InstaGallery shows your Instagram images in a module</description>
 	<files>
@@ -17,6 +17,8 @@
             <folder>includes</folder>
             <filename>index.html</filename>
             <filename>mod_instagallery.xml</filename>
+            <filename>instaClass.php</filename>
+            <filename>helper.php</filename>
         </files>
 	<languages folder="language">
             <language tag="en-GB">en-GB.mod_instagallery.ini</language>
@@ -29,79 +31,79 @@
                         name="display_type" 
                     type="list" 
                     default="user-recent" 
-                    label="MOD_INSTAGRAM_TYPE" 
-                    description="MOD_INSTAGRAM_TYPE_DESC">
-                        <option value="user-recent">MOD_INSTAGRAM_TYPE_USER_RECENT</option>
-                        <option value="user-feed">MOD_INSTAGRAM_TYPE_USER_FEED</option>
-                        <option value="user-liked">MOD_INSTAGRAM_TYPE_USER_LIKED</option>
-                        <option value="user-followers">MOD_INSTAGRAM_TYPE_FOLLOWERS</option>
-                        <option value="user-follows">MOD_INSTAGRAM_TYPE_FOLLOWS</option>
-                        <option value="most-popular">MOD_INSTAGRAM_TYPE_MOST_POPULAR</option>
-                        <option value="tags-name">MOD_INSTAGRAM_TYPE_TAGS_NAME</option>
-                        <option value="media-search">MOD_INSTAGRAM_TYPE_MEDIA_SEARCH</option>
+                    label="MOD_INSTAGALLERY_TYPE" 
+                    description="MOD_INSTAGALLERY_TYPE_DESC">
+                        <option value="user-recent">MOD_INSTAGALLERY_TYPE_USER_RECENT</option>
+                        <option value="user-feed">MOD_INSTAGALLERY_TYPE_USER_FEED</option>
+                        <option value="user-liked">MOD_INSTAGALLERY_TYPE_USER_LIKED</option>
+                        <option value="user-followers">MOD_INSTAGALLERY_TYPE_FOLLOWERS</option>
+                        <option value="user-follows">MOD_INSTAGALLERY_TYPE_FOLLOWS</option>
+                        <option value="most-popular">MOD_INSTAGALLERY_TYPE_MOST_POPULAR</option>
+                        <option value="tags-name">MOD_INSTAGALLERY_TYPE_TAGS_NAME</option>
+                        <option value="media-search">MOD_INSTAGALLERY_TYPE_MEDIA_SEARCH</option>
                     </field>
                 <field 
                     type="spacer" 
                     name="userspacer" 
                     class="text"
-                    label="MOD_INSTAGRAM_USER_SPACER"/>
+                    label="MOD_INSTAGALLERY_USER_SPACER"/>
                 <field 
                     name="user_name" 
                     type="text" 
                     default="" 
-                    label="MOD_INSTAGRAM_USER_NAME" 
-                    description="MOD_INSTAGRAM_USER_NAME_DESC"/>
+                    label="MOD_INSTAGALLERY_USER_NAME" 
+                    description="MOD_INSTAGALLERY_USER_NAME_DESC"/>
                 <field 
                     type="spacer" 
                     name="tagsspacer" 
                     class="text"
-                    label="MOD_INSTAGRAM_TAGS_NAME_SPACER"/>
+                    label="MOD_INSTAGALLERY_TAGS_NAME_SPACER"/>
                 <field 
                     name="tags_name" 
                     type="text" 
                     default="" 
-                    label="MOD_INSTAGRAM_TAGS_NAME" 
-                    description="MOD_INSTAGRAM_TAGS_NAME_DESC"/>
+                    label="MOD_INSTAGALLERY_TAGS_NAME" 
+                    description="MOD_INSTAGALLERY_TAGS_NAME_DESC"/>
                 <field 
                     type="spacer" 
                     name="locationspacer" 
                     class="text"
-                    label="MOD_INSTAGRAM_LOCATION_SPACER"/>
+                    label="MOD_INSTAGALLERY_LOCATION_SPACER"/>
                 <field 
                     name="longitude" 
                     type="text" 
                     default="" 
-                    label="MOD_INSTAGRAM_LONGITUDE" 
-                    description="MOD_INSTAGRAM_LONGITUDE_DESC"/>
+                    label="MOD_INSTAGALLERY_LONGITUDE" 
+                    description="MOD_INSTAGALLERY_LONGITUDE_DESC"/>
                 <field 
                     name="latitude" 
                     type="text" 
                     default="" 
-                    label="MOD_INSTAGRAM_LATITUDE" 
-                    description="MOD_INSTAGRAM_LATITUDE_DESC"/>
+                    label="MOD_INSTAGALLERY_LATITUDE" 
+                    description="MOD_INSTAGALLERY_LATITUDE_DESC"/>
                 <field 
                     name="distance" 
                     type="text" 
                     default="1000" 
-                    label="MOD_INSTAGRAM_DISTANCE" 
-                    description="MOD_INSTAGRAM_DISTANCE_DESC"/>
+                    label="MOD_INSTAGALLERY_DISTANCE" 
+                    description="MOD_INSTAGALLERY_DISTANCE_DESC"/>
                 <field 
                     type="spacer" 
                     name="generalspacer" 
                     class="text"
-                    label="MOD_INSTAGRAM_GENERAL_SPACER"/>
+                    label="MOD_INSTAGALLERY_GENERAL_SPACER"/>
                 <field 
                     name="image_count" 
                     type="text" 
                     default="30" 
-                    label="MOD_INSTAGRAM_IMAGE_COUNT" 
-                    description="MOD_INSTAGRAM_IMAGE_COUNT_DESC"/>
+                    label="MOD_INSTAGALLERY_IMAGE_COUNT" 
+                    description="MOD_INSTAGALLERY_IMAGE_COUNT_DESC"/>
                 <field
                     name="likes-comments"
                     type="list"
                     default="1"
-                    label="MOD_INSTAGRAM_LIKES_COMMENTS"
-                    description="MOD_INSTAGRAM_LIKES_COMMENTS_DESC">
+                    label="MOD_INSTAGALLERY_LIKES_COMMENTS"
+                    description="MOD_INSTAGALLERY_LIKES_COMMENTS_DESC">
                         <option value="1">Yes</option>
                         <option value="0">No</option>
                 </field>
@@ -109,30 +111,30 @@
                     name="link_type"
                     type="list"
                     default="0"
-                    label="MOD_INSTAGRAM_LINKTYPE"
-                    description="MOD_INSTAGRAM_LINKTYPE_DESC">
-                        <option value="0">MOD_INSTAGRAM_LINKTYPE_LIGHTBOX</option>
-                        <option value="1">MOD_INSTAGRAM_LINKTYPE_INSTAGRAM</option>
+                    label="MOD_INSTAGALLERY_LINKTYPE"
+                    description="MOD_INSTAGALLERY_LINKTYPE_DESC">
+                        <option value="0">MOD_INSTAGALLERY_LINKTYPE_LIGHTBOX</option>
+                        <option value="1">MOD_INSTAGALLERY_LINKTYPE_INSTAGRAM</option>
                 </field>
                 <field 
                     name="image_thumb_size" 
                     type="text" 
                     default="150" 
-                    label="MOD_INSTAGRAM_IMAGE_THUMB_SIZE" 
-                    description="MOD_INSTAGRAM_IMAGE_THUMB_SIZE_DESC"/>
+                    label="MOD_INSTAGALLERY_IMAGE_THUMB_SIZE" 
+                    description="MOD_INSTAGALLERY_IMAGE_THUMB_SIZE_DESC"/>
                 <field 
                     name="gallery_type" 
                     type="list" default="default" 
-                    label="MOD_INSTAGRAM_GALLERY_TYPE" 
-                    description="MOD_INSTAGRAM_GALLERY_TYPE_DESC">
-                        <option value="default">MOD_INSTAGRAM_GALLERY_TYPE_DEFAULT</option>
-                        <option value="widgetkit">MOD_INSTAGRAM_GALLERY_TYPE_WIDGETKIT</option>
+                    label="MOD_INSTAGALLERY_GALLERY_TYPE" 
+                    description="MOD_INSTAGALLERY_GALLERY_TYPE_DESC">
+                        <option value="default">MOD_INSTAGALLERY_GALLERY_TYPE_DEFAULT</option>
+                        <option value="widgetkit">MOD_INSTAGALLERY_GALLERY_TYPE_WIDGETKIT</option>
                 </field>
                  <field 
                      name="pre_text"
                     type="textarea" 
-                    label="MOD_INSTAGRAM_PRE_TEXT"
-                    description="MOD_INSTAGRAM_PRE_TEXT_DESC"
+                    label="MOD_INSTAGALLERY_PRE_TEXT"
+                    description="MOD_INSTAGALLERY_PRE_TEXT_DESC"
                     default="" 
                     rows="6" 
                     cols="30" 
@@ -140,14 +142,14 @@
                 <field 
                     name="post_text"
                     type="textarea" 
-                    label="MOD_INSTAGRAM_POST_TEXT"
-                    description="MOD_INSTAGRAM_POST_TEXT_DESC"
+                    label="MOD_INSTAGALLERY_POST_TEXT"
+                    description="MOD_INSTAGALLERY_POST_TEXT_DESC"
                     default="" 
                     rows="6" 
                     cols="30" 
                     filter="raw"/>
             </fieldset>
-            <fieldset name="instagram_settings" label="MOD_INSTAGRAM_SETTINGS" addfieldpath="/modules/mod_instagram/assets/elements">
+            <fieldset name="instagram_settings" label="MOD_INSTAGALLERY_SETTINGS" addfieldpath="/modules/mod_instagallery/assets/elements">
                 <field 
                     name="instructions_code" 
                     type="instructions" 
@@ -156,14 +158,14 @@
                 <field 
                     name="client_id" 
                     type="text" default="" 
-                    label="MOD_INSTAGRAM_CLIENT_ID" 
-                    description="MOD_INSTAGRAM_CLIENT_ID_DESC" 
+                    label="MOD_INSTAGALLERY_CLIENT_ID" 
+                    description="MOD_INSTAGALLERY_CLIENT_ID_DESC" 
                 />
                 <field 
                     name="client_secret" 
                     type="text" default="" 
-                    label="MOD_INSTAGRAM_CLIENT_SECRET" 
-                    description="MOD_INSTAGRAM_CLIENT_SECRET_DESC" 
+                    label="MOD_INSTAGALLERY_CLIENT_SECRET" 
+                    description="MOD_INSTAGALLERY_CLIENT_SECRET_DESC" 
                 />
                 <field 
                     name="redirect_uri" 
@@ -239,4 +241,4 @@
             </fieldset>
         </fields>
     </config>	
-</install>
+</extension>
