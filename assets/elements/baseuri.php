@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
         protected $type = 'baseuri';
 
         protected function getInput(){
-            $moduleAbsPath = JPATH_SITE.DS.'modules'.DS.'mod_instagallery'.DS;
+            $moduleAbsPath = JPATH_SITE.'/modules/mod_instagallery/';
             $htmlCode = '<input type="hidden" id="'.$this->id.'" name="'.$this->name.'" value="'.$moduleAbsPath.'"/>';
             return $htmlCode;
         }

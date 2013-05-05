@@ -8,44 +8,18 @@
  */
 
 defined('_JEXEC') or die('Restricted access'); // no direct access
-define('INSTAGALLERY_BASE_PATH', dirname(__FILE__));
-define('MODULEURI', JURI::root().'modules/mod_instagallery/');
-define('INSTAGRAM_API_PATH', INSTAGALLERY_BASE_PATH.'/includes/insta-api/');
-define('INSTAGALLERY_HEPLERS_PATH', INSTAGALLERY_BASE_PATH.'/helpers/');
-JLoader::register('InstaMediaHelper', INSTAGALLERY_HEPLERS_PATH.'instamediahelper.php');
+require_once __DIR__ . '/helper.php';
 $accessToken = $params->get('access_token');
 $count = $params->get('image_count');
-$displayType = $params->get('display_type', 'user-recent');
+$mediaType = $params->get('display_type', 'user-recent');
 $galleryType = 'images-'.$params->get('gallery_type', 'default');
-switch ($displayType) {
-    case 'user-feed':
-        $response = InstaMediaHelper::getRecentUserImages($accessToken, $params->get('user_name', 'self'), $count);
-        break;
-    case 'user-liked':
-        $response = InstaMediaHelper::getUserLikes($accessToken, $count);
-        break;
-    case 'most-popular':
-        $response = InstaMediaHelper::getMostPopular($accessToken);
-        break;
-    case 'tags-name':
-        $response = InstaMediaHelper::getMediaTagged($accessToken, $params->get('tags_name', ''));
-        break;
-    case 'media-search':
-        $response = InstaMediaHelper::getMediaByLocation($accessToken, $params->get('latitude', ''), $params->get('longitude', ''));
-        break;
-    default:
-        $response = InstaMediaHelper::getSelfFeed($accessToken, $count);
-        break;
-}
-/*
-foreach ($response as $images) {
-    foreach ($images as $image) {
-        if(isset($image->images->thumbnail->url)){
-            print '<img class="feed_image" src="'.$image->images->thumbnail->url.'" />';
-        }
-    }
-}*/
-$images = InstaMediaHelper::responseToArray($response);
+$tag = $params->get('tags_name', '');
+$user = $params->get('user_name', 'self');
+$lat = $params->get('latitude', '');
+$lng = $params->get('longitude', '');
+$list = modInstagalleryHelper::getList($mediaType, $accessToken, $count, $tag, $user, $lat, $lng);
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
-require JModuleHelper::getLayoutPath('mod_instagallery','default');
+if(isset($list) && count($list) > 0){
+    require JModuleHelper::getLayoutPath('mod_instagallery',$params->get('layout', 'default'));
+}
 ?>

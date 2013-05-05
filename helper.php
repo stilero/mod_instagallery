@@ -1,82 +1,166 @@
 <?php
 /**
- * @version		$Id: helper.php 96 2011-08-11 06:59:32Z michel $
- * @copyright	Copyright (C) 2012 Open Source Matters, Inc. All rights reserved.
- * @license		http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * modInstagalleryHelper
+ *
+ * @version  1.0
+ * @package Stilero
+ * @subpackage InstaGallery
+ * @author Daniel Eliasson (joomla@stilero.com)
+ * @copyright  (C) 2013-apr-24 Stilero Webdesign (www.stilero.com)
+ * @license	GNU General Public License version 2 or later.
+ * @link http://www.stilero.com
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
-JLoader::register( 'instaClass', dirname(__FILE__).DS.'instaClass.php');
+defined('_JEXEC') or die('Restricted access'); 
+define('INSTAGALLERY_BASE_PATH', dirname(__FILE__));
+define('INSTAGRAM_API_PATH', INSTAGALLERY_BASE_PATH.'/includes/insta-api/');
+JLoader::register('InstaEndpoint', INSTAGRAM_API_PATH.'Endpoints/InstaEndpoint.php');
+JLoader::register('Communicator', INSTAGRAM_API_PATH.'Communicator.php');
+JLoader::register('InstaMedia', INSTAGRAM_API_PATH.'Endpoints/InstaMedia.php');
+JLoader::register('InstaTags', INSTAGRAM_API_PATH.'Endpoints/InstaTags.php');
+JLoader::register('InstaLocations', INSTAGRAM_API_PATH.'Endpoints/InstaLocations.php');
+JLoader::register('InstaUsers', INSTAGRAM_API_PATH.'Endpoints/InstaUsers.php');
 
-class jInstaClass extends instaClass{
-    public function __construct($clientId, $clientSecret, $authCode = '', $accessToken = '', $config = '') {
-        parent::__construct($clientId, $clientSecret, $authCode, $accessToken, $config);
+class modInstagalleryHelper{
+    
+    public static function getList($mediaType, $accessToken, $count=20, $tag='', $user='', $lat='', $lng=''){
+        switch ($mediaType) {
+            case 'user-recent':
+                $response = self::getRecentUserImages($accessToken, $user, $count);
+                break;
+            case 'user-feed':
+                $response = self::getSelfFeed($accessToken, $count);;
+                break;
+            case 'user-liked':
+                $response = self::getUserLikes($accessToken, $count);
+                break;
+            case 'most-popular':
+                $response = self::getMostPopular($accessToken);
+                break;
+            case 'tags-name':
+                $response = self::getMediaTagged($accessToken, $tag);
+                break;
+            case 'media-search':
+                $response = self::getMediaByLocation($accessToken, $lat, $lng);
+                break;
+            default:
+                $response = self::getSelfFeed($accessToken, $count);
+                break;
+        }
+        return self::responseToArray($response);
     }
     
-    public function authenticate(){
-        $authURL = $this->config['authURL'].
-                '?client_id=' . $this->clientId.
-                '&redirect_uri='.$this->config['redirectURI'].
-                '&response_type=code';
-        $app = JFactory::getApplication();
-        $app->redirect( $authURL );
-        return;
+        /**
+     * Get the images in the feed of the logged in person
+     * @param string $accessToken
+     * @param int $count
+     * @return Object
+     */
+    public static function getSelfFeed($accessToken, $count){
+        $InstaUsers = new InstaUsers($accessToken);
+        $result = $InstaUsers->getSelfFeed($count);
+        $images = json_decode($result);
+        return $images;
     }
-}
 
-class modInstagramHelper{
-    static public function getItem($params) {
-        $css_class = $params->get('classname');
-        return "";
+    /**
+     * Get the latest images from the username
+     * @param string $accessToken
+     * @param string $username
+     * @param int $count
+     * @return Object
+     */
+    public static function getRecentUserImages($accessToken, $username, $count=30) {
+        $InstaUsers = new InstaUsers($accessToken);
+        $result = json_decode($InstaUsers->search($username));
+        $userid= $result->data[0]->id;
+        $images = json_decode($InstaUsers->getUserIdMediaRecent($userid, $count));
+        return $images;
     }
     
-    static public function isSettingsEntered($params){
-        $id = $params->get('client_id');
-        $secr = $params->get('client_secret');
-        $tok = $params->get('access_token');
-        $uri = $params->get('redirect_uri');
-        if($id=='' || $secr=='' || $tok=='' ||$uri==''){
+    /**
+     * Get the latest images based on the tag
+     * @param string $accessToken
+     * @param string $tagName
+     * @param int $count
+     * @return Object
+     */
+    public static function getMediaTagged($accessToken, $tagName, $count = 30){
+        $InstaTags = new InstaTags($accessToken);
+        $response = $InstaTags->getRecentMediaByTag($tagName);
+        $images = json_decode($response);
+        return $images;
+    }
+    
+    /**
+     * Get the lates images that the logged in user has liked
+     * @param string $accessToken
+     * @param int $count
+     * @return Object
+     */
+    public static function getUserLikes($accessToken, $count=30){
+        $InstaUsers = new InstaUsers($accessToken);
+        $response = $InstaUsers->getSelfMediaLiked($count);
+        $images = json_decode($response);
+        return $images;
+    }
+    
+    /**
+     * Get the most popular images
+     * @param string $accessToken
+     * @return Object
+     */
+    public static function getMostPopular($accessToken){
+        $InstaMedia = new InstaMedia($accessToken);
+        $response = $InstaMedia->getPopular();
+        $images = json_decode($response);
+        return $images;
+    }
+    
+    /**
+     * Get images from based on a location
+     * @param string $accessToken
+     * @param string $lat
+     * @param string $long
+     * @return Object
+     */
+    public static function getMediaByLocation($accessToken, $lat, $long){
+        $InstaMedia = new InstaMedia($accessToken);
+        $response = $InstaMedia->search($lat, $long);
+        $images = json_decode($response);
+        return $images;
+    }
+    
+    public static function responseToArray($response){
+        if(!isset($response->data)){
             return false;
         }
-        return true;
-    }
-    
-    static public function getInstagramObject($params){
-        if(!self::isSettingsEntered($params)){
-            JError::RaiseNotice('0', JText::_('MOD_INSTAGALLERY_ERROR_MISS_SETTINGS'));
+        $data = $response->data;
+        $images = array();
+        if(isset($data)){
+            foreach ($data as $value) {
+                $image['thumb'] = $value->images->thumbnail->url;
+                $image['full'] = $value->images->standard_resolution->url;
+                $image['created'] = $value->created_time;
+                $image['caption'] = isset($value->caption->text) ? $value->caption->text : '';
+                $image['tags'] = $value->tags;
+                $image['latitude'] = isset($value->location->latitude) ? $value->location->latitude : '';
+                $image['longitude'] = isset($value->location->longitude) ? $value->location->longitude : '';
+                $image['id'] = $value->id;
+                $image['likes'] = $value->likes->count;
+                $image['comments'] = $value->comments->count;
+                $image['link'] = $value->link;
+                $image['user-name'] = $value->user->username;
+                $image['user-profilepic'] = $value->user->profile_picture;
+                $image['user-fullname'] = $value->user->full_name;
+                $images[] = $image;
+            }
         }
-        $clientID = $params->get('client_id');
-        $clientSecret = $params->get('client_secret');
-        $accessToken = $params->get('access_token');
-        $redirec_uri = $params->get('redirect_uri');
-        $config = array(
-            'redirectURI'   =>  $redirec_uri
-        );
-        $instagram = new jInstaClass($clientID, $clientSecret,'',$accessToken ,$config);
-        return $instagram;
-    }
-    
-    static public function getAuthorizeURL(){
-        $params = &JComponentHelper::getParams( 'mod_instagallery' );
-        var_dump($params);exit;
-        $myvariable=$params->get('client_id');
-        var_dump($myvariable);exit;
-        $app = JFactory::getApplication();
-        $mycom_params =  & $app->getParams('mod_instagallery');
-        var_dump($mycom_params);exit;
-        $module =& JModuleHelper::getModule('instagallery');
-        $params = new JForm($module->params);
-        $params->loadString($module->params); 
-        print $clientID = $params->get('client_id');exit;
-        $clientSecret = $params->get('client_secret');
-        $authCode = $params->get('auth_code');
-        $accessToken = $params->get('access_token');
-        $redirec_uri = $params->get('redirect_uri');
-        $config = array(
-            'redirectURI'   =>  $redirec_uri
-        );
-        $instagram = new jInstaClass($clientID, $clientSecret,'','',$config);
-        return $instagram->authURL();
+        $images['nextpage'] = '';
+        if(isset($response->pagination->next_url)){
+            $images['nextpage'] = $response->pagination->next_url;
+        }
+        return $images;
     }
 }

@@ -7,10 +7,31 @@
 
 //No direct access
 defined('_JEXEC) or die;');
-$likes = $image['likes'] > 1000 ? substr($image['likes'], -3, 3).'K+' : $image['likes'];
-$comments = $image['comments'] > 1000 ? substr($image['comments'], -3, 3).'K+' : $image['comments'];
-$likeImage = MODULEURI.'assets/images/likeheart.png';
-$commentImage = MODULEURI.'assets/images/comments.png';
-$userProfile = '<span class="username">'.substr($image['user-name'], 0, 12).'*</span>';
+$comments = 0;
+$likes = 0;
+$likeHeart = JUri::base().'modules/mod_instagallery/assets/images/likeheart.png';
+$commentBubble = JUri::base().'modules/mod_instagallery/assets/images/comments.png';
+$profilePic = 'http://images.ak.instagram.com/profiles/anonymousUser.jpg';
+if(isset($image['likes'])){
+    $likes = $image['likes'] > 1000 ? substr($image['likes'], -3, 3).'K+' : $image['likes'];
+}
+if(isset($image['comments'])){
+    $comments = $image['comments'] > 1000 ? substr($image['comments'], -3, 3).'K+' : $image['comments'];
+}
+//$userProfile = '<span class="username">'.substr($image['user-name'], 0, 12).'*</span>';
+if(isset($image['user-profilepic'])){
+    $profilePic = $image['user-profilepic'];
+}
 ?>
-<div class="likes-comments"><span class="userimg"><img class="usericon" src="<?php print $image['user-profilepic'] ?>" /></span><span class="likes"><img class="instaicon" src="<?php print $likeImage ?>" /><?php print $likes; ?></span><span class="comments"><img class="instaicon" src="<?php print $commentImage ?>" /><?php print $comments; ?></span></div>
+<div class="likes-comments">
+    <span class="userimg">
+        <img class="usericon" src="<?php print $profilePic ?>" />
+    </span>
+    <span class="likes">
+        <img class="instaicon" src="<?php print $likeHeart ?>" />
+        <?php print $likes; ?>
+    </span><span class="comments">
+        <img class="instaicon" src="<?php print $commentBubble ?>" />
+        <?php print $comments; ?>
+    </span>
+</div>

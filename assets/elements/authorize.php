@@ -39,8 +39,8 @@ defined('_JEXEC') or die('Restricted access');
 
         protected function getInput(){
             JHTML::_('behavior.modal', 'a.lightbox');
-            $document =& JFactory::getDocument();
-            $language =& JFactory::getLanguage();
+            $document = JFactory::getDocument();
+            $language = JFactory::getLanguage();
             $language->load('mod_instagram', JPATH_ADMINISTRATOR, 'en-GB', true);
             $language->load('mod_instagram', JPATH_ADMINISTRATOR, null, true);
             $base_path = JURI::root().'modules/mod_instagallery/assets/';
@@ -76,7 +76,7 @@ defined('_JEXEC') or die('Restricted access');
         }
         
         private function addTranslationJS(){
-            $document =& JFactory::getDocument();
+            $document = JFactory::getDocument();
             $jsTranslationStrings = 'var MOD_INSTAGALLERY_JS_SUCCESS = "'.JText::_('MOD_INSTAGALLERY_JS_SUCCESS').'";';
             $jsTranslationStrings .= 'var MOD_INSTAGALLERY_JS_FAILURE = "'.JText::_('MOD_INSTAGALLERY_JS_FAILURE').'";';
             $document->addScriptDeclaration($jsTranslationStrings);        

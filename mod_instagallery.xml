@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5" type="module" method="upgrade" client="site">
-	<name>mod_instagallery</name>
+	<name>InstaGallery</name>
 	<author>Daniel Eliasson (joomla@stilero.com)</author>
 	<creationDate>2012-nov-08</creationDate>
 	<copyright>Copyright (c) 2012-nov-08 Stilero Webdesign (www.stilero.com). All rights reserved.</copyright>

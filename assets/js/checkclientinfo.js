@@ -1,10 +1,13 @@
-//jform_params_client_id
+/**
+* Script for authorising with InstaGram
+*
+* @version  1.0
+* @author Daniel Eliasson - joomla at stilero.com
+* @copyright  (C) 2012-maj-10 Stilero Webdesign http://www.stilero.com
+* @category MooTools script
+* @license    GPLv2
+*/
 window.addEvent('domready', function(){
-//    var clientID = $('jform_params_client_id').value;
-//    var clientSecret = $('jform_params_client_secret').value;
-//    var redirectURI = $('jform_params_redirect_uri').value;
-//    var authCode = $('jform_params_auth_code').value;
-//    var catcherURI = $('jform_params_helpers_uri').value + 'catcher.php';
 
     var clientIdInput = $('jform_params_client_id');
     var clientID = clientIdInput.value;
@@ -62,7 +65,6 @@ window.addEvent('domready', function(){
             '&grant_type=authorization_code' +
             '&code=' + authCode +
             '&redirect_uri=' + catcherURI;
-        alert(reqUrl + '?' + sendVars);
         var myRequest = new Request.JSON({
             url: reqUrl,
             method: 'post',
@@ -76,9 +78,11 @@ window.addEvent('domready', function(){
                 handleResponse(responseText);
             },
             onError: function(responseText){
+                alert('onError');
                 alert(MOD_INSTAGALLERY_JS_FAILURE + responseText.status);
             },
             onFailure: function(responseText){
+                alert('onFailure');
                 alert(MOD_INSTAGALLERY_JS_FAILURE + responseText.status);
             }
         });

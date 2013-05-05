@@ -8,8 +8,24 @@
 //No direct access
 defined('_JEXEC) or die;');
 $document = JFactory::getDocument();
-$document->addScript(MODULEURI.'assets/js/imageloader.js');
+//$document->addScript(MODULEURI.'assets/js/imageloader.js');
 $imageThumbSize = $params->get('image_thumb_size', '150') > 600 ? 600 : $params->get('image_thumb_size', '150');
-$thumbImage = $params->get('image_thumb_size', '150') > 150 ? $image['full'] : $image['thumb'];
+$imageCaption = "";
+$thumbImage = '';
+$fullImage = '';
+if(isset($image['thumb'])){
+    $thumbImage = $image['thumb'];
+}
+if(isset($image['full'])){
+    $fullImage = $image['full'];
+}
+if($imageThumbSize > 150 && $fullImage != ''){
+    $thumbImage = $fullImage;
+}
+if(isset($image['caption'])){
+    $imageCaption = $image['caption'];
+}
 ?>
-<a class="instaimage" href="<?php echo $image['full'];?>" title="<?php echo $image['caption'] ?>" ><img src="<?php echo $thumbImage ?>" alt="image1" height="<?php echo $imageThumbSize; ?>" width="<?php echo $imageThumbSize; ?>" /></a>
+<a class="instaimage" href="<?php echo $fullImage;?>" title="<?php echo $imageCaption ?>" >
+    <img src="<?php echo $thumbImage ?>" alt="<?php echo $imageCaption; ?>" height="<?php echo $imageThumbSize; ?>" width="<?php echo $imageThumbSize; ?>" />
+</a>
