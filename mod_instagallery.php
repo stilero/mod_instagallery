@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die('Restricted access'); // no direct access
-require_once __DIR__ . '/helper.php';
+require_once dirname(__FILE__) . '/helper.php';
 $accessToken = $params->get('access_token');
 $count = $params->get('image_count');
 $mediaType = $params->get('display_type', 'user-recent');
