@@ -1,9 +1,11 @@
 <?php defined('_JEXEC') or die('Restricted access'); ?>
+<div class="instagallery<?php echo $moduleclass_sfx; ?>">
+    <p class="pre-text"><?php echo $preText; ?></p>
 <div class="wk-gallery wk-gallery-wall clearfix polaroid ">
     <?php 
         $i = 1; 
-        foreach ($images as $image) {
-            if ($i++ > $imageCount){
+        foreach ($list as $image) {
+            if ($i++ > $count){
                 break;
             }
             if(!empty($image)){
@@ -16,4 +18,6 @@
             }
          } 
          ?>
+    </div>
+    <p class="post-text"><?php echo $postText; ?></p>
 </div>

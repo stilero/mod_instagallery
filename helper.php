@@ -1,8 +1,8 @@
 <?php
 /**
- * modInstagalleryHelper
+ * Helper for InstaGallery. Basically helps retrieving images and info from Instagram.
  *
- * @version  1.0
+ * @version  1.1
  * @package Stilero
  * @subpackage InstaGallery
  * @author Daniel Eliasson (joomla@stilero.com)
@@ -24,24 +24,50 @@ JLoader::register('InstaUsers', INSTAGRAM_API_PATH.'Endpoints/InstaUsers.php');
 
 class modInstagalleryHelper{
     
+    const MEDIA_TYPE_USER_RECENT = 'user-recent';
+    const MEDIA_TYPE_USER_FEED = 'user-feed';
+    const MEDIA_TYPE_USER_LIKED = 'user-liked';
+    const MEDIA_TYPE_USER_FOLLOWERS = 'user-followers';
+    const MEDIA_TYPE_USER_FOLLOWS = 'user-follows';
+    const MEDIA_TYPE_MOST_POPULAR = 'most-popular';
+    const MEDIA_TYPE_TAGS_NAME = 'tags-name';
+    const MEDIA_TYPE_MEDIA_SEARCH = 'media-search';
+    
+    /**
+     * Convenient static methor to retrive the images and info
+     * @param string $mediaType The type of media to retireve. Use constants of this class
+     * @param string $accessToken The Accesstoken
+     * @param int $count number of rows to return. Max = 30 (usually)
+     * @param string $tag Tag name to use, for example "streetphoto_bw"
+     * @param string $user User Name to use, for example "streetpeople"
+     * @param string $lat Latitude for locations, for example "52.12345"
+     * @param string $lng Longitude for locations, for example "54.12345"
+     * @return Array Array with the response
+     */
     public static function getList($mediaType, $accessToken, $count=20, $tag='', $user='', $lat='', $lng=''){
         switch ($mediaType) {
-            case 'user-recent':
+            case self::MEDIA_TYPE_USER_RECENT:
                 $response = self::getRecentUserImages($accessToken, $user, $count);
                 break;
-            case 'user-feed':
+            case self::MEDIA_TYPE_USER_FEED:
                 $response = self::getSelfFeed($accessToken, $count);;
                 break;
-            case 'user-liked':
+            case self::MEDIA_TYPE_USER_LIKED :
                 $response = self::getUserLikes($accessToken, $count);
                 break;
-            case 'most-popular':
+            case self::MEDIA_TYPE_USER_FOLLOWERS :
+                $response = self::getUserFollowers($accessToken, $user, $count);
+                break;
+            case self::MEDIA_TYPE_USER_FOLLOWS :
+                $response = self::getUserFollows($accessToken, $user, $count);
+                break;
+            case self::MEDIA_TYPE_MOST_POPULAR :
                 $response = self::getMostPopular($accessToken);
                 break;
-            case 'tags-name':
+            case self::MEDIA_TYPE_TAGS_NAME :
                 $response = self::getMediaTagged($accessToken, $tag);
                 break;
-            case 'media-search':
+            case self::MEDIA_TYPE_MEDIA_SEARCH :
                 $response = self::getMediaByLocation($accessToken, $lat, $lng);
                 break;
             default:
@@ -130,6 +156,23 @@ class modInstagalleryHelper{
         $response = $InstaMedia->search($lat, $long);
         $images = json_decode($response);
         return $images;
+    }
+    
+    /**
+     * Get info of users that the user follows
+     * @param string $accessToken
+     * @param string $username Username to check
+     * @param int $count Number of Images to return
+     * @return array Returns an array with the response
+     */
+    public static function getUserFollows($accessToken, $username, $count=30){
+        $InstaUsers = new InstaUsers($accessToken);
+        $usersResponse = json_decode($InstaUsers->search($username));
+        $userID= $usersResponse->data[0]->id;
+        $InstaRelation = new InstaRelationships($accessToken);
+        $jsonResponse = $InstaRelation->getUserIdFollows($userID);
+        $responses = json_decode($jsonResponse);
+        return $responses;
     }
     
     public static function responseToArray($response){

@@ -8,9 +8,7 @@
 
 // no direct access
 defined('_JEXEC') or die;
-if(count($list) > 0){
-    require JModuleHelper::getLayoutPath('mod_instagallery', 'images-'.$params->get('gallery_type', 'default'));
+if(isset($list) && !empty($list)){
+    require JModuleHelper::getLayoutPath('mod_instagallery', $galleryType);
 }
-
-
 ?>

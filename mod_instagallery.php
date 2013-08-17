@@ -17,6 +17,8 @@ $tag = $params->get('tags_name', '');
 $user = $params->get('user_name', 'self');
 $lat = $params->get('latitude', '');
 $lng = $params->get('longitude', '');
+$preText = $params->get('pre_text', '');
+$postText = $params->get('post_text', '');
 $list = modInstagalleryHelper::getList($mediaType, $accessToken, $count, $tag, $user, $lat, $lng);
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
 if(isset($list) && count($list) > 0){

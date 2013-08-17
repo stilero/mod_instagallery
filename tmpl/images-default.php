@@ -16,7 +16,7 @@ JHtml::_('behavior.modal', 'a.instaimage');
 $noLikesComments = array('user-followers', 'user-follows');
 ?>
 <div class="instagallery<?php echo $moduleclass_sfx; ?>">
-    <p class="pre-text"><?php echo $params->get('pre_text', ''); ?></p>
+    <p class="pre-text"><?php echo $preText; ?></p>
     <div class="instaimages">
         <?php 
         $i = 1; 
@@ -39,5 +39,5 @@ $noLikesComments = array('user-followers', 'user-follows');
          } 
          ?>
     </div>
-    <p class="post-text"><?php echo $params->get('post_text', ''); ?></p>
+    <p class="post-text"><?php echo $postText; ?></p>
 </div>
