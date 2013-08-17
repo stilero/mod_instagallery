@@ -26,22 +26,17 @@
         </languages>
 	<config>
             <fields name="params" >
-                <fieldset name="basic">
+                <fieldset name="basic" addfieldpath="/modules/mod_instagallery/assets/elements">
+                    <!--
+                    Define More display types in the helper-class
+                    modInstaGalleryMediaTypeHelper
+                    -->
                     <field 
                         name="display_type" 
-                    type="list" 
-                    default="user-recent" 
-                    label="MOD_INSTAGALLERY_TYPE" 
-                    description="MOD_INSTAGALLERY_TYPE_DESC">
-                        <option value="user-recent">MOD_INSTAGALLERY_TYPE_USER_RECENT</option>
-                        <option value="user-feed">MOD_INSTAGALLERY_TYPE_USER_FEED</option>
-                        <option value="user-liked">MOD_INSTAGALLERY_TYPE_USER_LIKED</option>
-                        <option value="user-followers">MOD_INSTAGALLERY_TYPE_FOLLOWERS</option>
-                        <option value="user-follows">MOD_INSTAGALLERY_TYPE_FOLLOWS</option>
-                        <option value="most-popular">MOD_INSTAGALLERY_TYPE_MOST_POPULAR</option>
-                        <option value="tags-name">MOD_INSTAGALLERY_TYPE_TAGS_NAME</option>
-                        <option value="media-search">MOD_INSTAGALLERY_TYPE_MEDIA_SEARCH</option>
-                    </field>
+                        type="mediatypes" 
+                        label="MOD_INSTAGALLERY_TYPE" 
+                        description="MOD_INSTAGALLERY_TYPE_DESC"
+                    />
                 <field 
                     type="spacer" 
                     name="userspacer" 

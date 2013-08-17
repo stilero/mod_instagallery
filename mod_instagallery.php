@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access'); // no direct access
 require_once dirname(__FILE__) . '/helper.php';
 $accessToken = $params->get('access_token');
 $count = $params->get('image_count');
-$mediaType = $params->get('display_type', 'user-recent');
+$mediaType = $params->get('display_type', modInstagalleryHelper::MEDIA_TYPE_USER_RECENT);
 $galleryType = 'images-'.$params->get('gallery_type', 'default');
 $tag = $params->get('tags_name', '');
 $user = $params->get('user_name', 'self');
@@ -20,6 +20,7 @@ $lng = $params->get('longitude', '');
 $preText = $params->get('pre_text', '');
 $postText = $params->get('post_text', '');
 $list = modInstagalleryHelper::getList($mediaType, $accessToken, $count, $tag, $user, $lat, $lng);
+var_dump($list);exit;
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
 if(isset($list) && count($list) > 0){
     require JModuleHelper::getLayoutPath('mod_instagallery',$params->get('layout', 'default'));
