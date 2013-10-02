@@ -13,17 +13,17 @@ $imageThumbSize = $params->get('image_thumb_size', '150') > 600 ? 600 : $params-
 $imageCaption = "";
 $thumbImage = '';
 $fullImage = '';
-if(isset($image['thumb'])){
-    $thumbImage = $image['thumb'];
+if(isset($image->id)){
+    $thumbImage = $image->images->thumbnail->url;
 }
-if(isset($image['full'])){
-    $fullImage = $image['full'];
+if(isset($image->images->standard_resolution->url)){
+    $fullImage = $image->images->standard_resolution->url;
 }
 if($imageThumbSize > 150 && $fullImage != ''){
     $thumbImage = $fullImage;
 }
-if(isset($image['caption'])){
-    $imageCaption = $image['caption'];
+if(isset($image->caption->text)){
+    $imageCaption = $image->caption->text;
 }
 ?>
 <a class="instaimage" href="<?php echo $fullImage;?>" title="<?php echo $imageCaption ?>" >

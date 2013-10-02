@@ -7,8 +7,7 @@
  */
 
 // no direct access
-defined('_JEXEC') or die;
-if(isset($list) && !empty($list)){
+defined('_JEXEC') or die;$document = JFactory::getDocument();
+if(isset($list) && !empty($list)){ 
     require JModuleHelper::getLayoutPath('mod_instagallery', $galleryType);
-}
-?>
+} ?>

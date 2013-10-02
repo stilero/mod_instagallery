@@ -42,7 +42,7 @@ class Communicator {
     private $_postVars;
     private $_response;
     private $_responseInfoParts;
-    private $_cookieFile;
+//    private $_cookieFile;
     private $_isCustomRequest = false;
     private $_customRequestType;
     const HTTP_STATUS_OK = '200';
@@ -69,7 +69,7 @@ class Communicator {
                 'curlEncoding'          =>  false,
                 'curlHeader'            =>  false, //Include the header in the output
                 'curlHeaderOut'         =>  true,
-                'curlUseCookies'        =>  true,
+                'curlUseCookies'        =>  false,
                 'debug'                 =>  false,
                 'eol'                   =>  "<br /><br />"
             );
@@ -85,7 +85,7 @@ class Communicator {
         $this->_response = curl_exec ($this->_curlHandler);
         $this->_responseInfoParts = curl_getinfo($this->_curlHandler); 
         curl_close ($this->_curlHandler);
-        $this->_destroyCookieFile();
+        //$this->_destroyCookieFile();
     }
     
     private function _setupCurl(){
@@ -94,7 +94,7 @@ class Communicator {
         $this->_initCurlPostMode();
         $this->_initCurlHeader();
         $this->_initCurlProxyPassword();
-        $this->_initCookieFile();
+        //$this->_initCookieFile();
     }
     
     private function _initCurlSettings(){
@@ -154,30 +154,30 @@ class Communicator {
         } 
     }
     
-    private function _initCookieFile(){
-        if(!$this->_config['curlUseCookies']){
-            return;
-        }
-        if (!defined('DS')){
-            define('DS', DIRECTORY_SEPARATOR);
-        }
-        try {
-            $this->_cookieFile = tempnam(DS."tmp", "cookies");
-        } catch (Exception $exc) {
-            echo $exc->getTraceAsString();
-        }
-        if (!$this->_cookieFile){
-            return;
-        }
-        curl_setopt($this->_curlHandler, CURLOPT_COOKIEFILE, $this->_cookieFile);
-        curl_setopt($this->_curlHandler, CURLOPT_COOKIEJAR, $this->_cookieFile);
-    }
+//    private function _initCookieFile(){
+//        if(!$this->_config['curlUseCookies']){
+//            return;
+//        }
+//        if (!defined('DS')){
+//            define('DS', DIRECTORY_SEPARATOR);
+//        }
+//        try {
+//            $this->_cookieFile = tempnam(DS."tmp", "cookies");
+//        } catch (Exception $exc) {
+//            echo $exc->getTraceAsString();
+//        }
+//        if (!$this->_cookieFile){
+//            return;
+//        }
+//        curl_setopt($this->_curlHandler, CURLOPT_COOKIEFILE, $this->_cookieFile);
+//        curl_setopt($this->_curlHandler, CURLOPT_COOKIEJAR, $this->_cookieFile);
+//    }
     
-    private function _destroyCookieFile(){
-        if($this->_cookieFile != "" && $this->_config['curlUseCookies']){
-            unlink($this->_cookieFile);
-        }
-    }
+//    private function _destroyCookieFile(){
+//        if($this->_cookieFile != "" && $this->_config['curlUseCookies']){
+//            unlink($this->_cookieFile);
+//        }
+//    }
     
     public function resetResponse(){
         $this->_response = '';

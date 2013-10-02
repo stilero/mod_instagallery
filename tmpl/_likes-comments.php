@@ -12,15 +12,15 @@ $likes = 0;
 $likeHeart = JUri::base().'modules/mod_instagallery/assets/images/likeheart.png';
 $commentBubble = JUri::base().'modules/mod_instagallery/assets/images/comments.png';
 $profilePic = 'http://images.ak.instagram.com/profiles/anonymousUser.jpg';
-if(isset($image['likes'])){
-    $likes = $image['likes'] > 1000 ? substr($image['likes'], -3, 3).'K+' : $image['likes'];
+if(isset($image->likes)){
+    $likes = $image->likes->count > 1000 ? substr($image->likes->count, -3, 3).'K+' : $image->likes->count;
 }
-if(isset($image['comments'])){
-    $comments = $image['comments'] > 1000 ? substr($image['comments'], -3, 3).'K+' : $image['comments'];
+if(isset($image->comments)){
+    $comments = $image->comments->count > 1000 ? substr($$image->comments->count, -3, 3).'K+' : $image->comments->count;
 }
 //$userProfile = '<span class="username">'.substr($image['user-name'], 0, 12).'*</span>';
-if(isset($image['user-profilepic'])){
-    $profilePic = $image['user-profilepic'];
+if(isset($image->user->profile_picture)){
+    $profilePic = $image->user->profile_picture;
 }
 ?>
 <div class="likes-comments">

@@ -17,21 +17,21 @@ define('INSTAGALLERY_BASE_PATH', dirname(__FILE__));
 define('INSTAGRAM_API_PATH', INSTAGALLERY_BASE_PATH.'/includes/insta-api/');
 JLoader::register('InstaEndpoint', INSTAGRAM_API_PATH.'Endpoints/InstaEndpoint.php');
 JLoader::register('Communicator', INSTAGRAM_API_PATH.'Communicator.php');
+JLoader::register('InstaResponseProcessor', INSTAGRAM_API_PATH.'InstaResponseProcessor.php');
 JLoader::register('InstaMedia', INSTAGRAM_API_PATH.'Endpoints/InstaMedia.php');
 JLoader::register('InstaTags', INSTAGRAM_API_PATH.'Endpoints/InstaTags.php');
 JLoader::register('InstaLocations', INSTAGRAM_API_PATH.'Endpoints/InstaLocations.php');
 JLoader::register('InstaUsers', INSTAGRAM_API_PATH.'Endpoints/InstaUsers.php');
+JLoader::register('InstaRelationships', INSTAGRAM_API_PATH.'Endpoints/InstaRelationships.php');
+//OBJECT
+JLoader::register('InstaObjectMedia', INSTAGRAM_API_PATH.'Endpoints/Objects/InstaObjectMedia.php');
+JLoader::register('InstaObjectComment', INSTAGRAM_API_PATH.'Endpoints/Objects/InstaObjectComment.php');
+JLoader::register('InstaObjectImage', INSTAGRAM_API_PATH.'Endpoints/Objects/InstaObjectImage.php');
+JLoader::register('InstaObjectImageTypes', INSTAGRAM_API_PATH.'Endpoints/Objects/InstaObjectImageTypes.php');
+JLoader::register('InstaObjectLocation', INSTAGRAM_API_PATH.'Endpoints/Objects/InstaObjectLocation.php');
+JLoader::register('InstaObjectUser', INSTAGRAM_API_PATH.'Endpoints/Objects/InstaObjectUser.php');
 
 class modInstagalleryHelper{
-    
-    const MEDIA_TYPE_USER_RECENT = 'user-recent';
-    const MEDIA_TYPE_USER_FEED = 'user-feed';
-    const MEDIA_TYPE_USER_LIKED = 'user-liked';
-    const MEDIA_TYPE_USER_FOLLOWERS = 'user-followers';
-    const MEDIA_TYPE_USER_FOLLOWS = 'user-follows';
-    const MEDIA_TYPE_MOST_POPULAR = 'most-popular';
-    const MEDIA_TYPE_TAGS_NAME = 'tags-name';
-    const MEDIA_TYPE_MEDIA_SEARCH = 'media-search';
     
     /**
      * Convenient static methor to retrive the images and info
@@ -42,39 +42,41 @@ class modInstagalleryHelper{
      * @param string $user User Name to use, for example "streetpeople"
      * @param string $lat Latitude for locations, for example "52.12345"
      * @param string $lng Longitude for locations, for example "54.12345"
+     * @param int $authUserId User ID for the authorized user, for example 1234556
      * @return Array Array with the response
      */
-    public static function getList($mediaType, $accessToken, $count=20, $tag='', $user='', $lat='', $lng=''){
+    public static function getList($mediaType, $accessToken, $count=20, $tag='', $user='', $lat='', $lng='', $authUderId=''){
         switch ($mediaType) {
-            case self::MEDIA_TYPE_USER_RECENT:
+            case ModInstaGalleryMediaType::USER_RECENT:
                 $response = self::getRecentUserImages($accessToken, $user, $count);
                 break;
-            case self::MEDIA_TYPE_USER_FEED:
-                $response = self::getSelfFeed($accessToken, $count);;
+            case ModInstaGalleryMediaType::USER_FEED :
+                $response = self::getSelfFeed($accessToken, $count, $authUderId);
                 break;
-            case self::MEDIA_TYPE_USER_LIKED :
+            case ModInstaGalleryMediaType::USER_LIKED :
                 $response = self::getUserLikes($accessToken, $count);
                 break;
-            case self::MEDIA_TYPE_USER_FOLLOWERS :
+            case ModInstaGalleryMediaType::USER_FOLLOWERS :
                 $response = self::getUserFollowers($accessToken, $user, $count);
                 break;
-            case self::MEDIA_TYPE_USER_FOLLOWS :
+            case ModInstaGalleryMediaType::USER_FOLLOWS :
                 $response = self::getUserFollows($accessToken, $user, $count);
                 break;
-            case self::MEDIA_TYPE_MOST_POPULAR :
-                $response = self::getMostPopular($accessToken);
+            case ModInstaGalleryMediaType::MOST_POPULAR :
+                $response = self::getMostPopular($accessToken, $count);
                 break;
-            case self::MEDIA_TYPE_TAGS_NAME :
-                $response = self::getMediaTagged($accessToken, $tag);
+            case ModInstaGalleryMediaType::TAGS_NAME :
+                $response = self::getMediaTagged($accessToken, $tag, $count);
                 break;
-            case self::MEDIA_TYPE_MEDIA_SEARCH :
+            case ModInstaGalleryMediaType::MEDIA_SEARCH :
                 $response = self::getMediaByLocation($accessToken, $lat, $lng);
                 break;
             default:
                 $response = self::getSelfFeed($accessToken, $count);
                 break;
         }
-        return self::responseToArray($response);
+        //return self::responseToArray($response);
+        return $response;
     }
     
         /**
@@ -83,13 +85,31 @@ class modInstagalleryHelper{
      * @param int $count
      * @return Object
      */
-    public static function getSelfFeed($accessToken, $count){
+    public static function getSelfFeed($accessToken, $count, $authUserId){
         $InstaUsers = new InstaUsers($accessToken);
-        $result = $InstaUsers->getSelfFeed($count);
+        //$result = $InstaUsers->getSelfFeed($count);
+        $result = $InstaUsers->getUserIdMediaRecent($authUserId, $count);
+        return $result;
         $images = json_decode($result);
         return $images;
     }
-
+    
+    /**
+     * Returns the user ID for the Username provided
+     * @param string $accessToken
+     * @param string $username
+     * @return string User ID
+     */
+    public static function getUserIdFromUserName($accessToken, $username){
+        $InstaUsers = new InstaUsers($accessToken);
+        $users = $InstaUsers->search($username);
+        $userid = null;
+        if(isset($users[0]->id)){
+            $userid= $users[0]->id;
+        }
+        return $userid;
+    }
+    
     /**
      * Get the latest images from the username
      * @param string $accessToken
@@ -98,11 +118,17 @@ class modInstagalleryHelper{
      * @return Object
      */
     public static function getRecentUserImages($accessToken, $username, $count=30) {
-        $InstaUsers = new InstaUsers($accessToken);
-        $result = json_decode($InstaUsers->search($username));
-        $userid= $result->data[0]->id;
-        $images = json_decode($InstaUsers->getUserIdMediaRecent($userid, $count));
-        return $images;
+        $userid = self::getUserIdFromUserName($accessToken, $username);
+        if($userid != null){
+            $InstaUsers = new InstaUsers($accessToken);
+            $images = $InstaUsers->getUserIdMediaRecent($userid, $count);
+            //var_dump($images);exit;
+            return $images;
+        }else{
+            return array();
+        }
+        //$images = json_decode($InstaUsers->getUserIdMediaRecent($userid, $count));
+        //return $images;
     }
     
     /**
@@ -114,9 +140,9 @@ class modInstagalleryHelper{
      */
     public static function getMediaTagged($accessToken, $tagName, $count = 30){
         $InstaTags = new InstaTags($accessToken);
+        $InstaTags->count = $count;
         $response = $InstaTags->getRecentMediaByTag($tagName);
-        $images = json_decode($response);
-        return $images;
+        return $response;
     }
     
     /**
@@ -126,10 +152,14 @@ class modInstagalleryHelper{
      * @return Object
      */
     public static function getUserLikes($accessToken, $count=30){
-        $InstaUsers = new InstaUsers($accessToken);
-        $response = $InstaUsers->getSelfMediaLiked($count);
-        $images = json_decode($response);
-        return $images;
+        $userid = self::getUserIdFromUserName($accessToken, $username);
+        if($userid != null){
+            $InstaUsers = new InstaUsers($accessToken);
+            $images = $InstaUsers->getSelfMediaLiked($count);
+            return $images;
+        }else{
+            return array();
+        }
     }
     
     /**
@@ -137,9 +167,11 @@ class modInstagalleryHelper{
      * @param string $accessToken
      * @return Object
      */
-    public static function getMostPopular($accessToken){
+    public static function getMostPopular($accessToken, $count=30){
         $InstaMedia = new InstaMedia($accessToken);
+        $InstaMedia->count = $count;
         $response = $InstaMedia->getPopular();
+        return $response;
         $images = json_decode($response);
         return $images;
     }
@@ -154,6 +186,7 @@ class modInstagalleryHelper{
     public static function getMediaByLocation($accessToken, $lat, $long){
         $InstaMedia = new InstaMedia($accessToken);
         $response = $InstaMedia->search($lat, $long);
+        return $response;
         $images = json_decode($response);
         return $images;
     }
@@ -166,13 +199,31 @@ class modInstagalleryHelper{
      * @return array Returns an array with the response
      */
     public static function getUserFollows($accessToken, $username, $count=30){
-        $InstaUsers = new InstaUsers($accessToken);
-        $usersResponse = json_decode($InstaUsers->search($username));
-        $userID= $usersResponse->data[0]->id;
-        $InstaRelation = new InstaRelationships($accessToken);
-        $jsonResponse = $InstaRelation->getUserIdFollows($userID);
-        $responses = json_decode($jsonResponse);
-        return $responses;
+        $userid = self::getUserIdFromUserName($accessToken, $username);
+        if($userid != null){
+            $InstaRelation = new InstaRelationships($accessToken);
+            $users = $InstaRelation->getUserIdFollows($userid);
+            return $users;
+        }else{
+            return array();
+        }
+    }
+    
+     /* Get info of users that the user follows
+     * @param string $accessToken
+     * @param string $username Username to check
+     * @param int $count Number of Images to return
+     * @return array Returns an array with the response
+     */
+    public static function getUserFollowers($accessToken, $username, $count=30){
+        $userid = self::getUserIdFromUserName($accessToken, $username);
+        if($userid != null){
+            $InstaRelation = new InstaRelationships($accessToken);
+            $images = $InstaRelation->getUserIdFollowedBy($userid);
+            return $images;
+        }else{
+            return array();
+        }
     }
     
     public static function responseToArray($response){

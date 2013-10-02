@@ -41,6 +41,8 @@ class InstaUsers extends InstaEndpoint{
      * @return string json Response
      */
     public function getSelfFeed($count='', $min_id='', $max_id=''){
+        $this->count = $count;
+        $this->response = array();
         $params = array(
             'count' => $count,
             'min_id' => $min_id,
@@ -61,6 +63,8 @@ class InstaUsers extends InstaEndpoint{
      * @param int $max_id           Return media earlier than this max_id.
      */
     public function getUserIdMediaRecent($userid, $count='', $max_timestamp='', $min_timestamp='', $min_id='', $max_id=''){
+        $this->count = $count;
+        $this->response = array();
         $params = array(
             'count' => $count,
             'max_timestamp' => $max_timestamp,
@@ -82,6 +86,8 @@ class InstaUsers extends InstaEndpoint{
      * @param int $max_like_id     Return media liked before this id.
      */
     public function getSelfMediaLiked($count='', $max_like_id=''){
+        $this->count = $count;
+        $this->response = array();
         $params = array(
             'count' => $count,
             'max_like_id' => $max_like_id
@@ -97,6 +103,8 @@ class InstaUsers extends InstaEndpoint{
      * @param int $count        Number of users to return.
      */
     public function search($query, $count=''){
+        $this->count = $count;
+        $this->response = array();
         $params = array(
             'q' => $query,
             'count' => $count

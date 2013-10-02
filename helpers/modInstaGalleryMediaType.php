@@ -42,4 +42,59 @@ class ModInstaGalleryMediaType{
         );
         return $mediaTypes;
     }
+    /**
+     * Returns an array with all media types that displays images
+     * @return array an array with all image media types
+     */
+    public static function imageMedias(){
+        $imageMedias = array(
+            self::MEDIA_SEARCH,
+            self::MOST_POPULAR,
+            self::TAGS_NAME,
+            self::USER_FEED,
+            self::USER_LIKED,
+            self::USER_RECENT
+        ); 
+        return $imageMedias;
+    }
+    
+    /**
+     * Returns an array with all media types that displays users
+     * @return array media types
+     */
+    public static function userMedias(){
+        $userMedias = array(
+            self::USER_FOLLOWERS,
+            self::USER_FOLLOWS
+        );
+        return $userMedias;
+    }
+    
+    /**
+     * Checks if a media type displays users
+     * @param string $mediaType Media types as defined by constants
+     * @return boolean true if media type displays users
+     */
+    public static function isUserMedia($mediaType){
+        $userMedias = self::userMedias();
+        if(in_array($mediaType, $userMedias)){
+            return TRUE;
+        }else{
+            return FALSE;
+        }
+    }
+    
+    /**
+     * Checks if a media type displays images
+     * @param string $mediaType Media types as defined by constants
+     * @return boolean true if image media
+     */
+    public static function isImageMedia($mediaType){
+        $imageMedias = self::imageMedias();
+        if(in_array($mediaType, $imageMedias)){
+            return TRUE;
+        }else{
+            return FALSE;
+        }
+    }
 }

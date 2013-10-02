@@ -16,11 +16,11 @@ defined('_JEXEC') or die('Restricted access');
 
 class InstaMedia extends InstaEndpoint{
     
-    private static $endpointUrl = 'media/';
+    private static $endpointUrl = 'https://api.instagram.com/v1/media/';
     
     public function __construct($accessToken) {
         parent::__construct($accessToken);
-        $this->requestUrl = $this->requestUrl.self::$endpointUrl;
+        $this->requestUrl = self::$endpointUrl;
     }
     /**
      * Get information about a media object. 

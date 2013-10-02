@@ -18,13 +18,21 @@ window.addEvent('domready', function(){
     var authCode = $('jform_params_auth_code').value;
     var authCodeInput = $('jform_params_auth_code');
     var accessTokenInput = $('jform_params_access_token');
+    var authuserIdInput = $('jform_params_authuser_id');
+    var authuserPicInput = $('jform_params_authuser_profile');
+    var authuserPicUrlInput = $('jform_params_authuser_profile_url');
+    var authuserNameInput = $('jform_params_authuser_name');
     var accessToken = accessTokenInput.value;
     //var catcherURI = $('jform_params_helpers_uri').value + 'catcher.php';
     var catcherURI = redirectURI;
     var authButton = $('jform_params_authorize');
 
     var sendVars;
-        
+    
+    
+    /**
+     * Sets the correck auth link based on the client id and cather uri
+     */
     var setLinkHref = function(){
         var link = 'https://api.instagram.com/oauth/authorize/' + 
             '?client_id=' + clientID +
@@ -33,6 +41,10 @@ window.addEvent('domready', function(){
         $( 'jform_params_authorize').href = link;
     };
     
+    /**
+     * Controls displaying of the connect button. If client ID and secret is set
+     * the button is visible
+     */
     var buttonDisplay = function(){
         if(clientID == '' || clientSecret == '' || redirectURI == ''){
             authButton.setStyle( 'display', 'none');
@@ -44,6 +56,20 @@ window.addEvent('domready', function(){
         }
     };
     
+    /**
+     * Displays the profile picture
+     * @param string src URL to the profile image
+     */
+    var createImage = function(src){
+        if(src !== ""){
+            $('profilepic').set('src', src);
+        }
+    };
+    
+    /**
+     * Handles the response from the ajax call
+     * @param JSON response the ajax response
+     */
     var handleResponse = function(response){
         if((response.access_token == undefined)){
             var errormsg = '(' + response.code + ')' +
@@ -52,11 +78,19 @@ window.addEvent('domready', function(){
                 alert(errormsg);
         }else{
             accessTokenInput.value = response.access_token;
+            authuserNameInput.value = response.user['username'];
+            authuserIdInput.value = response.user['id'];
+            authuserPicUrlInput.value = response.user['profile_picture'];
+            createImage(response.user['profile_picture']);
+            accessTokenInput.value = response.access_token;
             authCodeInput.value = '';        
             alert(MOD_INSTAGALLERY_JS_SUCCESS);
         }
     };
     
+    /**
+     * AJAX call for requesting the accesstoken
+     */
     var requestAccessToken = function(){
         //authCode = authCode;
         var reqUrl = $('jform_params_helpers_uri').value + 'authorizer.php';
@@ -91,6 +125,7 @@ window.addEvent('domready', function(){
     };
     
     buttonDisplay();
+    createImage(authuserPicUrlInput.value);
 
     $('jform_params_client_id').addEvent('keyup', function(){
         clientID = $('jform_params_client_id').value;

@@ -2,11 +2,11 @@
 <extension version="2.5" type="module" method="upgrade" client="site">
 	<name>InstaGallery</name>
 	<author>Daniel Eliasson (joomla@stilero.com)</author>
-	<creationDate>2012-nov-08</creationDate>
+	<creationDate>2013-okt-01</creationDate>
 	<copyright>Copyright (c) 2012-nov-08 Stilero Webdesign (www.stilero.com). All rights reserved.</copyright>
 	<authorEmail>joomla@stilero.com</authorEmail>
 	<authorUrl>www.stilero.com</authorUrl>
-	<version>1.71</version>
+	<version>1.80</version>
 	<license>GPLv2</license>
 	<description>InstaGallery shows your Instagram images in a module</description>
 	<files>
@@ -42,6 +42,14 @@
                     name="userspacer" 
                     class="text"
                     label="MOD_INSTAGALLERY_USER_SPACER"/>
+                    <!--
+                <field 
+                    name="instauser" 
+                    type="instauser" 
+                    default="" 
+                    label="MOD_INSTAGALLERY_USER_NAME" 
+                    description="MOD_INSTAGALLERY_USER_NAME_DESC"/>
+                    -->
                 <field 
                     name="user_name" 
                     type="text" 
@@ -117,6 +125,7 @@
                     default="150" 
                     label="MOD_INSTAGALLERY_IMAGE_THUMB_SIZE" 
                     description="MOD_INSTAGALLERY_IMAGE_THUMB_SIZE_DESC"/>
+                <!--
                 <field 
                     name="gallery_type" 
                     type="list" default="default" 
@@ -125,6 +134,15 @@
                         <option value="default">MOD_INSTAGALLERY_GALLERY_TYPE_DEFAULT</option>
                         <option value="widgetkit">MOD_INSTAGALLERY_GALLERY_TYPE_WIDGETKIT</option>
                 </field>
+                -->
+                <field
+                    name="gallery_type" 
+                    type="gallerytypes" 
+                    default="default" 
+                    label="MOD_INSTAGALLERY_GALLERY_TYPE" 
+                    description="MOD_INSTAGALLERY_GALLERY_TYPE_DESC"
+                />
+                    
                  <field 
                      name="pre_text"
                     type="textarea" 
@@ -185,6 +203,11 @@
                     default="" 
                 />
                 <field 
+                    name="auth_user_id" 
+                    type="hidden" 
+                    default="" 
+                />
+                <field 
                     name="base_uri" 
                     type="baseuri" 
                     default="" 
@@ -193,6 +216,29 @@
                     name="helpers_uri" 
                     type="helpersuri" 
                 />
+                <field 
+                    name="authuser_name" 
+                    type="text" 
+                    default="" 
+                    label="MOD_INSTAGALLERY_AUTHUSER_NAME" 
+                    description="MOD_INSTAGALLERY_USER_ID_DESC"/>
+                <field 
+                    name="authuser_id" 
+                    type="hidden" 
+                    default="" 
+                    label="MOD_INSTAGALLERY_AUTHUSER_ID" 
+                    description="MOD_INSTAGALLERY_AUTHUSER_ID_DESC"/>
+                <field 
+                    name="authuser_profile" 
+                    type="userprofile" 
+                    default="" 
+                    label="MOD_INSTAGALLERY_AUTHUSER_PROFILE" 
+                    description="MOD_INSTAGALLERY_AUTHUSER_PROFILE_DESC"/>
+                <field 
+                    name="authuser_profile_url" 
+                    type="hidden" 
+                    default="" 
+                    />
             </fieldset>
             <fieldset name="advanced">
                 <field
