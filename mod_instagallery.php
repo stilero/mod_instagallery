@@ -8,6 +8,9 @@
  */
 
 defined('_JEXEC') or die('Restricted access'); // no direct access
+if(!defined('DS')){
+    define('DS', DIRECTORY_SEPARATOR);
+}
 define('INSTAGALLERY_HELPERS', JPATH_ROOT.DS.'modules'.DS.'mod_instagallery'.DS.'helpers'.DS);
 JLoader::register('ModInstaGalleryMediaType', INSTAGALLERY_HELPERS.'modInstaGalleryMediaType.php');
 JLoader::register('ModInstagalleryGalleryType', INSTAGALLERY_HELPERS.'modInstagalleryGalleryType.php');

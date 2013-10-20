@@ -13,23 +13,26 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access'); 
+if(!defined('DS')){
+    define('DS', DIRECTORY_SEPARATOR);
+}
 define('INSTAGALLERY_BASE_PATH', dirname(__FILE__));
-define('INSTAGRAM_API_PATH', INSTAGALLERY_BASE_PATH.'/includes/insta-api/');
-JLoader::register('InstaEndpoint', INSTAGRAM_API_PATH.'Endpoints/InstaEndpoint.php');
+define('INSTAGRAM_API_PATH', INSTAGALLERY_BASE_PATH.DS.'includes'.DS.'insta-api'.DS);
+JLoader::register('InstaEndpoint', INSTAGRAM_API_PATH.'Endpoints'.DS.'InstaEndpoint.php');
 JLoader::register('Communicator', INSTAGRAM_API_PATH.'Communicator.php');
 JLoader::register('InstaResponseProcessor', INSTAGRAM_API_PATH.'InstaResponseProcessor.php');
-JLoader::register('InstaMedia', INSTAGRAM_API_PATH.'Endpoints/InstaMedia.php');
-JLoader::register('InstaTags', INSTAGRAM_API_PATH.'Endpoints/InstaTags.php');
-JLoader::register('InstaLocations', INSTAGRAM_API_PATH.'Endpoints/InstaLocations.php');
-JLoader::register('InstaUsers', INSTAGRAM_API_PATH.'Endpoints/InstaUsers.php');
-JLoader::register('InstaRelationships', INSTAGRAM_API_PATH.'Endpoints/InstaRelationships.php');
+JLoader::register('InstaMedia', INSTAGRAM_API_PATH.'Endpoints'.DS.'InstaMedia.php');
+JLoader::register('InstaTags', INSTAGRAM_API_PATH.'Endpoints'.DS.'InstaTags.php');
+JLoader::register('InstaLocations', INSTAGRAM_API_PATH.'Endpoints'.DS.'InstaLocations.php');
+JLoader::register('InstaUsers', INSTAGRAM_API_PATH.'Endpoints'.DS.'InstaUsers.php');
+JLoader::register('InstaRelationships', INSTAGRAM_API_PATH.'Endpoints'.DS.'InstaRelationships.php');
 //OBJECT
-JLoader::register('InstaObjectMedia', INSTAGRAM_API_PATH.'Endpoints/Objects/InstaObjectMedia.php');
-JLoader::register('InstaObjectComment', INSTAGRAM_API_PATH.'Endpoints/Objects/InstaObjectComment.php');
-JLoader::register('InstaObjectImage', INSTAGRAM_API_PATH.'Endpoints/Objects/InstaObjectImage.php');
-JLoader::register('InstaObjectImageTypes', INSTAGRAM_API_PATH.'Endpoints/Objects/InstaObjectImageTypes.php');
-JLoader::register('InstaObjectLocation', INSTAGRAM_API_PATH.'Endpoints/Objects/InstaObjectLocation.php');
-JLoader::register('InstaObjectUser', INSTAGRAM_API_PATH.'Endpoints/Objects/InstaObjectUser.php');
+JLoader::register('InstaObjectMedia', INSTAGRAM_API_PATH.'Endpoints'.DS.'Objects'.DS.'InstaObjectMedia.php');
+JLoader::register('InstaObjectComment', INSTAGRAM_API_PATH.'Endpoints'.DS.'Objects'.DS.'InstaObjectComment.php');
+JLoader::register('InstaObjectImage', INSTAGRAM_API_PATH.'Endpoints'.DS.'Objects'.DS.'InstaObjectImage.php');
+JLoader::register('InstaObjectImageTypes', INSTAGRAM_API_PATH.'Endpoints'.DS.'Objects'.DS.'InstaObjectImageTypes.php');
+JLoader::register('InstaObjectLocation', INSTAGRAM_API_PATH.'Endpoints'.DS.'Objects'.DS.'InstaObjectLocation.php');
+JLoader::register('InstaObjectUser', INSTAGRAM_API_PATH.'Endpoints'.DS.'Objects'.DS.'InstaObjectUser.php');
 
 class modInstagalleryHelper{
     

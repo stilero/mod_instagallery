@@ -15,12 +15,15 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access'); 
-JLoader::register('InstaEndpoint', INSTAGRAM_API_PATH.'Endpoints/InstaEndpoint.php');
+if(!defined('DS')){
+    define('DS', DIRECTORY_SEPARATOR);
+}
+JLoader::register('InstaEndpoint', INSTAGRAM_API_PATH.'Endpoints'.DS.'InstaEndpoint.php');
 JLoader::register('Communicator', INSTAGRAM_API_PATH.'Communicator.php');
-JLoader::register('InstaMedia', INSTAGRAM_API_PATH.'Endpoints/InstaMedia.php');
-JLoader::register('InstaTags', INSTAGRAM_API_PATH.'Endpoints/InstaTags.php');
-JLoader::register('InstaLocations', INSTAGRAM_API_PATH.'Endpoints/InstaLocations.php');
-JLoader::register('InstaUsers', INSTAGRAM_API_PATH.'Endpoints/InstaUsers.php');
+JLoader::register('InstaMedia', INSTAGRAM_API_PATH.'Endpoints'.DS.'InstaMedia.php');
+JLoader::register('InstaTags', INSTAGRAM_API_PATH.'Endpoints'.DS.'InstaTags.php');
+JLoader::register('InstaLocations', INSTAGRAM_API_PATH.'Endpoints'.DS.'InstaLocations.php');
+JLoader::register('InstaUsers', INSTAGRAM_API_PATH.'Endpoints'.DS.'InstaUsers.php');
 
 class InstaMediaHelper{
     

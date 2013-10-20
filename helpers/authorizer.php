@@ -1,6 +1,8 @@
 <?php
 
-define( 'DS', DIRECTORY_SEPARATOR );
+if(!defined('DS')){
+    define('DS', DIRECTORY_SEPARATOR);
+}
 define('_JEXEC', 1); 
 if (!defined('JPATH_BASE')){
     define('JPATH_BASE', '..'.DS.'..'.DS.'..');

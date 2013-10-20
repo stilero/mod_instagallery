@@ -13,6 +13,9 @@
  
 // no direct access
 defined('_JEXEC') or die('Restricted access');
+if(!defined('DS')){
+    define('DS', DIRECTORY_SEPARATOR);
+}
 if(!defined('INSTAGALLERY_HELPERS')){
     define('INSTAGALLERY_HELPERS', JPATH_ROOT.DS.'modules'.DS.'mod_instagallery'.DS.'helpers'.DS);
 }
