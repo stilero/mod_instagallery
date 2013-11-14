@@ -17,6 +17,8 @@ defined('_JEXEC') or die('Restricted access');
 class ModInstagalleryGalleryType{
     
     const WIDGETKIT = 'widgetkit';
+    const WIDGETKIT_WALL = 'widgetkit-wall';
+    const WIDGETKIT_SLIDESHOW = 'widgetkit-slideshow';
     const STANDARD = 'default';
     
     /**
@@ -26,7 +28,9 @@ class ModInstagalleryGalleryType{
     public static function getTypes(){
         $types = array(
             self::STANDARD => JText::_('MOD_INSTAGALLERY_GALLERY_TYPE_DEFAULT'),
-            self::WIDGETKIT => JText::_('MOD_INSTAGALLERY_GALLERY_TYPE_WIDGETKIT')
+            self::WIDGETKIT => JText::_('MOD_INSTAGALLERY_GALLERY_TYPE_WIDGETKIT'),
+            self::WIDGETKIT_WALL => JText::_('MOD_INSTAGALLERY_GALLERY_TYPE_WIDGETKIT_WALL'),
+            self::WIDGETKIT_SLIDESHOW => JText::_('MOD_INSTAGALLERY_GALLERY_TYPE_WIDGETKIT_SLIDESHOW')
         );
         return $types;
     }
