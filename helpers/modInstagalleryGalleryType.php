@@ -20,6 +20,8 @@ class ModInstagalleryGalleryType{
     const WIDGETKIT_WALL = 'widgetkit-wall';
     const WIDGETKIT_SLIDESHOW = 'widgetkit-slideshow';
     const STANDARD = 'default';
+    const RESPONSIVE = 'bootstrap-simple';
+    const RESPONSIVE_GALLERY = 'bootstrap-gallery';
     
     /**
      * Returns A list of galleries defined
@@ -28,6 +30,8 @@ class ModInstagalleryGalleryType{
     public static function getTypes(){
         $types = array(
             self::STANDARD => JText::_('MOD_INSTAGALLERY_GALLERY_TYPE_DEFAULT'),
+            self::RESPONSIVE => JText::_('MOD_INSTAGALLERY_GALLERY_TYPE_RESPONSIVE'),
+            self::RESPONSIVE_GALLERY => JText::_('MOD_INSTAGALLERY_GALLERY_TYPE_RESPONSIVE_GALLERY'),
             self::WIDGETKIT => JText::_('MOD_INSTAGALLERY_GALLERY_TYPE_WIDGETKIT'),
             self::WIDGETKIT_WALL => JText::_('MOD_INSTAGALLERY_GALLERY_TYPE_WIDGETKIT_WALL'),
             self::WIDGETKIT_SLIDESHOW => JText::_('MOD_INSTAGALLERY_GALLERY_TYPE_WIDGETKIT_SLIDESHOW')

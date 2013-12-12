@@ -111,6 +111,15 @@
                         <option value="0">No</option>
                 </field>
                 <field
+                    name="show-caption"
+                    type="list"
+                    default="1"
+                    label="MOD_INSTAGALLERY_SHOW_CAPTION"
+                    description="MOD_INSTAGALLERY_SHOW_CAPTION_DESC">
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                </field>
+                <field
                     name="link_type"
                     type="list"
                     default="0"
