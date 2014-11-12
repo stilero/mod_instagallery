@@ -2,7 +2,7 @@
 /**
  * GalleryType class, for convieniently selecting and returning MediaTypes
  *
- * @version  1.0
+ * @version  1.1
  * @package Stilero
  * @subpackage mod_instagallery
  * @author Daniel Eliasson <daniel at stilero.com>
@@ -30,7 +30,7 @@ class ModInstagalleryGalleryType{
     public static function getTypes(){
         $types = array(
             self::STANDARD => JText::_('MOD_INSTAGALLERY_GALLERY_TYPE_DEFAULT'),
-            self::RESPONSIVE => JText::_('MOD_INSTAGALLERY_GALLERY_TYPE_RESPONSIVE'),
+            //self::RESPONSIVE => JText::_('MOD_INSTAGALLERY_GALLERY_TYPE_RESPONSIVE'),
             self::RESPONSIVE_GALLERY => JText::_('MOD_INSTAGALLERY_GALLERY_TYPE_RESPONSIVE_GALLERY'),
             self::WIDGETKIT => JText::_('MOD_INSTAGALLERY_GALLERY_TYPE_WIDGETKIT'),
             self::WIDGETKIT_WALL => JText::_('MOD_INSTAGALLERY_GALLERY_TYPE_WIDGETKIT_WALL'),
