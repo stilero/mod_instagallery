@@ -9,10 +9,10 @@
                 break;
             }
             if(!empty($image)){
-                print '<a class="" href="'.$image['full'].'" data-lightbox="group:25-4fa6cb3aaf15c" title="'.$image['caption'].'">';
+                print '<a class="" href="'.$image->images->standard_resolution->url.'" data-lightbox="group:25-4fa6cb3aaf15c" title="'.$image->caption->text.'">';
                 print '<div>';
-                print '<img src="'.$image['thumb'].'" alt="'.$image['caption'].'" height="150" width="150" />';
-                print '<p class="title">'.substr($image['caption'], 0, 20).'</p>';
+                print '<img src="'.$image->images->thumbnail->url.'" alt="'.$image->caption->text.'" height="150" width="150" />';
+                print '<p class="title">'.substr($image->caption->text, 0, 20).'</p>';
                 print '</div>';
                 print '</a>';
             }
