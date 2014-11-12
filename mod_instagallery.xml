@@ -203,12 +203,12 @@
                 />
                 <field 
                     name="auth_code" 
-                    type="hidden" 
+                    type="password" 
                     default="" 
                 />
                 <field 
                     name="access_token" 
-                    type="hidden" 
+                    type="password" 
                     default="" 
                 />
                 <field 

@@ -82,7 +82,8 @@ class Communicator {
         $this->resetResponse();
         $this->_curlHandler = curl_init(); 
         $this->_setupCurl();
-        $this->_response = curl_exec ($this->_curlHandler);
+        $response = curl_exec ($this->_curlHandler);
+        $this->_response = $response;
         $this->_responseInfoParts = curl_getinfo($this->_curlHandler); 
         curl_close ($this->_curlHandler);
         //$this->_destroyCookieFile();

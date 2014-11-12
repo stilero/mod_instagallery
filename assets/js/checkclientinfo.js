@@ -112,10 +112,12 @@ window.addEvent('domready', function(){
                 handleResponse(responseText);
             },
             onError: function(responseText){
+                handleResponse(responseText);
                 alert('onError');
                 alert(MOD_INSTAGALLERY_JS_FAILURE + responseText.status);
             },
             onFailure: function(responseText){
+                handleResponse(responseText);
                 alert('onFailure');
                 alert(MOD_INSTAGALLERY_JS_FAILURE + responseText.status);
             }

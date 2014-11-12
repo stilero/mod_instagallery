@@ -2,7 +2,7 @@
 /**
  * Helper for InstaGallery. Basically helps retrieving images and info from Instagram.
  *
- * @version  1.1
+ * @version  1.2
  * @package Stilero
  * @subpackage InstaGallery
  * @author Daniel Eliasson (joomla@stilero.com)
@@ -57,7 +57,7 @@ class modInstagalleryHelper{
                 $response = self::getSelfFeed($accessToken, $count, $authUderId);
                 break;
             case ModInstaGalleryMediaType::USER_LIKED :
-                $response = self::getUserLikes($accessToken, $count);
+                $response = self::getUserLikes($accessToken, $user, $count);
                 break;
             case ModInstaGalleryMediaType::USER_FOLLOWERS :
                 $response = self::getUserFollowers($accessToken, $user, $count);
@@ -154,7 +154,7 @@ class modInstagalleryHelper{
      * @param int $count
      * @return Object
      */
-    public static function getUserLikes($accessToken, $count=30){
+    public static function getUserLikes($accessToken, $username, $count=30){
         $userid = self::getUserIdFromUserName($accessToken, $username);
         if($userid != null){
             $InstaUsers = new InstaUsers($accessToken);
