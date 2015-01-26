@@ -7,7 +7,7 @@
  * @subpackage mod_instagallery
  * @author Daniel Eliasson <daniel at stilero.com>
  * @copyright  (C) 2013-aug-17 Stilero Webdesign (http://www.stilero.com)
- * @license	GNU General Public License version 2 or later.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @link http://www.stilero.com
  */
 

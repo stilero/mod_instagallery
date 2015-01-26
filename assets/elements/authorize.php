@@ -6,7 +6,7 @@
 * @author Daniel Eliasson - joomla at stilero.com
 * @copyright  (C) 2012-maj-10 Stilero Webdesign http://www.stilero.com
 * @category Custom Form field
-* @license    GPLv2
+* @license     GNU General Public License version 2 or later; see LICENSE.txt
 *
 * Joomla! is free software. This version may have been modified pursuant
 * to the GNU General Public License, and as distributed it includes or

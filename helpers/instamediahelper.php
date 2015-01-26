@@ -9,7 +9,7 @@
  * @author Daniel Eliasson (joomla@stilero.com)
  * @copyright  (C) 2013-apr-16 Stilero Webdesign (www.stilero.com)
  * @category Module Helper
- * @license	GPLv2
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * 
  */
 

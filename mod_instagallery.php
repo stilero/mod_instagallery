@@ -4,7 +4,7 @@
  * @package    Instagram
  * @subpackage Base
  * @author     Daniel Eliasson Stilero Webdesign
- * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die('Restricted access'); // no direct access

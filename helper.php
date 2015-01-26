@@ -7,7 +7,7 @@
  * @subpackage InstaGallery
  * @author Daniel Eliasson (joomla@stilero.com)
  * @copyright  (C) 2013-apr-24 Stilero Webdesign (www.stilero.com)
- * @license	GNU General Public License version 2 or later.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @link http://www.stilero.com
  */
 

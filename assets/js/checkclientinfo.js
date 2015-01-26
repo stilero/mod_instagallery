@@ -5,7 +5,7 @@
 * @author Daniel Eliasson - joomla at stilero.com
 * @copyright  (C) 2012-maj-10 Stilero Webdesign http://www.stilero.com
 * @category MooTools script
-* @license    GPLv2
+* @license     GNU General Public License version 2 or later; see LICENSE.txt
 */
 window.addEvent('domready', function(){
 

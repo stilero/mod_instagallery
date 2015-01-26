@@ -6,10 +6,15 @@
 * @author Daniel Eliasson - www.stilero.com
 * @copyright  (C) 2012 Stilero Webdesign
 * @category library
-* @license    GPLv2
+* @license     GNU General Public License version 2 or later; see LICENSE.txt
 *
 *
 */
+
+
+// no direct access
+defined('_JEXEC') or die('Restricted access'); 
+
 class instaClass {
     var $clientId;
     var $clientSecret;

@@ -2,7 +2,7 @@
 /**
  * @version		$Id: helper.php 96 2011-08-11 06:59:32Z michel $
  * @copyright	Copyright (C) 2012 Open Source Matters, Inc. All rights reserved.
- * @license		http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // no direct access

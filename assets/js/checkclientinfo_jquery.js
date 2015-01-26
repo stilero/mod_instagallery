@@ -1,3 +1,12 @@
+/**
+* Script for authorising with InstaGram
+*
+* @version  1.0
+* @author Daniel Eliasson - joomla at stilero.com
+* @copyright  (C) 2012-maj-10 Stilero Webdesign http://www.stilero.com
+* @category MooTools script
+* @license     GNU General Public License version 2 or later; see LICENSE.txt
+*/
 //jform_params_client_id
 $(function(){
 
